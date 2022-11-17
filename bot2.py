@@ -234,7 +234,7 @@ def apply_to(driver, links, retry_list):
                 parse_qs(urlparse(links[i]).query)["jobid"][0]
             )
         )
-        html_writer = open(join(path, "job_description","{}.html".format(job_title + "_" + job_br_id)), "a+")
+        html_writer = open(join(path, "job_description","{}.html".format(job_title + "_" + job_br_id)), "a+", encoding="utf-8")
         html_writer.write(html_source)
         html_writer.close()
         with open(join(path, "applied_jobs.txt"), "a+") as file_writer:
@@ -357,7 +357,7 @@ if __name__ == "__main__":
         password = config.get("credentials", "password")
         asuid = config.get("credentials", "asuid")
     else:
-        username = input("Enter username : ")
+        username = input("Enter asurite : ")
         password = input("Enter password : ")
         asuid = input("Enter ASU ID : ")
         data = "[credentials]\nusername: {}\npassword: {}\nasuid: {}".format(username, password, asuid)
