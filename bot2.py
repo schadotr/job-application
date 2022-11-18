@@ -1,4 +1,3 @@
-
 import configparser
 import time
 from urllib.parse import urlparse
@@ -22,10 +21,13 @@ import requests
 path = join(dirname(abspath(__file__)))
 
 logging.basicConfig(
-    filename=join(path,"logs.log"), level=logging.DEBUG, format="%(asctime)s %(message)s"
+    filename=join(path, "logs.log"),
+    level=logging.DEBUG,
+    format="%(asctime)s %(message)s",
 )
 if not os.path.exists(join(path, "job_description")):
     os.makedirs(join(path, "job_description"))
+
 
 def apply_to(driver, links, retry_list):
     global asuid, username
@@ -40,10 +42,14 @@ def apply_to(driver, links, retry_list):
             wait = WebDriverWait(driver, 300)
             html_source = driver.page_source
             job_title = wait.until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "jobtitleInJobDetails"))
+                EC.visibility_of_element_located(
+                    (By.CLASS_NAME, "jobtitleInJobDetails")
+                )
             ).text
             job_br_id = wait.until(
-                EC.visibility_of_all_elements_located((By.CLASS_NAME, "position3InJobDetails"))
+                EC.visibility_of_all_elements_located(
+                    (By.CLASS_NAME, "position3InJobDetails")
+                )
             )[1].text
             if len(driver.find_elements(by=By.ID, value="appLbl")) > 0:
                 with open(join(path, "applied_jobs.txt"), "a+") as file_writer:
@@ -51,7 +57,14 @@ def apply_to(driver, links, retry_list):
                     applied_job_id = parse_qs(parsed_url.query)["jobid"][0]
                     file_writer.write(applied_job_id + "\n")
                     file_writer.close()
-                html_writer = open(join(path, "job_description","{}.html".format(job_title.replace("/"," ") + "_" + job_br_id)), "a+")
+                html_writer = open(
+                    join(
+                        path,
+                        "job_description",
+                        "{}.html".format(job_title.replace("/", " ") + "_" + job_br_id),
+                    ),
+                    "a+",
+                )
                 html_writer.write(html_source)
                 html_writer.close()
                 continue
@@ -70,23 +83,18 @@ def apply_to(driver, links, retry_list):
             shownext = wait.until(EC.visibility_of_element_located((By.ID, "shownext")))
             driver.execute_script("arguments[0].scrollIntoView();", shownext)
             driver.execute_script("arguments[0].click();", shownext)
-            flag = True
-            for i in range(8):
-                if i == 7:
-                    wait.until(
-                        EC.visibility_of_all_elements_located(
-                            (By.CLASS_NAME, "ui-radio")
-                        )
-                    )[i].find_element(by=By.TAG_NAME, value="input").click()
-                if flag:
-                    wait.until(
-                        EC.visibility_of_all_elements_located(
-                            (By.CLASS_NAME, "ui-radio")
-                        )
-                    )[i].find_element(by=By.TAG_NAME, value="input").click()
-                    flag = False
-                else:
-                    flag = True
+            wait.until(
+                EC.visibility_of_all_elements_located((By.CLASS_NAME, "ui-radio"))
+            )[1].find_element(by=By.TAG_NAME, value="input").click()
+            wait.until(
+                EC.visibility_of_all_elements_located((By.CLASS_NAME, "ui-radio"))
+            )[2].find_element(by=By.TAG_NAME, value="input").click()
+            wait.until(
+                EC.visibility_of_all_elements_located((By.CLASS_NAME, "ui-radio"))
+            )[4].find_element(by=By.TAG_NAME, value="input").click()
+            wait.until(
+                EC.visibility_of_all_elements_located((By.CLASS_NAME, "ui-radio"))
+            )[7].find_element(by=By.TAG_NAME, value="input").click()
             # wait.until(
             #     EC.visibility_of_element_located((By.ID, "radio-44674-No"))
             # ).click()
@@ -100,18 +108,26 @@ def apply_to(driver, links, retry_list):
             ).click()
             wait.until(EC.visibility_of_element_located((By.ID, "ui-id-5"))).click()
             asuid_ = wait.until(
-                    EC.visibility_of_element_located((By.ID, "custom_42313_1291_fname_txt_0"))
-                ).get_attribute("value")
+                EC.visibility_of_element_located(
+                    (By.ID, "custom_42313_1291_fname_txt_0")
+                )
+            ).get_attribute("value")
             if asuid_ != asuid:
                 wait.until(
-                    EC.visibility_of_element_located((By.ID, "custom_42313_1291_fname_txt_0"))
+                    EC.visibility_of_element_located(
+                        (By.ID, "custom_42313_1291_fname_txt_0")
+                    )
                 ).send_keys(asuid)
             asurite = wait.until(
-                    EC.visibility_of_element_located((By.ID, "custom_42236_1291_fname_txt_0"))
-                ).get_attribute("value")
+                EC.visibility_of_element_located(
+                    (By.ID, "custom_42236_1291_fname_txt_0")
+                )
+            ).get_attribute("value")
             if asurite != username:
                 wait.until(
-                    EC.visibility_of_element_located((By.ID, "custom_42236_1291_fname_txt_0"))
+                    EC.visibility_of_element_located(
+                        (By.ID, "custom_42236_1291_fname_txt_0")
+                    )
                 ).send_keys(username)
             shownext = wait.until(EC.visibility_of_element_located((By.ID, "shownext")))
             driver.execute_script("arguments[0].scrollIntoView();", shownext)
@@ -132,7 +148,9 @@ def apply_to(driver, links, retry_list):
                 EC.visibility_of_element_located((By.CLASS_NAME, "Marginbottom20"))
             ).find_element(By.TAG_NAME, "button").click()
             driver.switch_to.default_content()
-            cover_letter_link = wait.until(EC.visibility_of_element_located((By.ID, "AddCLLink")))
+            cover_letter_link = wait.until(
+                EC.visibility_of_element_located((By.ID, "AddCLLink"))
+            )
             driver.execute_script("arguments[0].scrollIntoView();", cover_letter_link)
             driver.execute_script("arguments[0].click();", cover_letter_link)
             wait.until(
@@ -234,7 +252,13 @@ def apply_to(driver, links, retry_list):
                 parse_qs(urlparse(links[i]).query)["jobid"][0]
             )
         )
-        html_writer = open(join(path, "job_description","{}.html".format(job_title + "_" + job_br_id)), "a+", encoding="utf-8")
+        html_writer = open(
+            join(
+                path, "job_description", "{}.html".format(job_title + "_" + job_br_id)
+            ),
+            "a+",
+            encoding="utf-8",
+        )
         html_writer.write(html_source)
         html_writer.close()
         with open(join(path, "applied_jobs.txt"), "a+") as file_writer:
@@ -267,9 +291,7 @@ def perform_login(USERNAME, PASSWORD, driver, login_attempt):
 def run_job_lister(USERNAME, PASSWORD, driver):
     wait = WebDriverWait(driver, 300)
     perform_login(USERNAME, PASSWORD, driver, 0)
-    wait.until(
-        EC.presence_of_element_located((By.ID, "responsiveCandZoneLink"))
-    )
+    wait.until(EC.presence_of_element_located((By.ID, "responsiveCandZoneLink")))
 
     applied_job_ids = set()
     if os.path.exists(join(path, "applied_jobs.txt")) is False:
@@ -277,7 +299,7 @@ def run_job_lister(USERNAME, PASSWORD, driver):
         file_.close()
     with open(join(path, "applied_jobs.txt"), "r+") as file_writer:
         for line in file_writer:
-            applied_job_ids.add(line.rstrip('\n'))
+            applied_job_ids.add(line.rstrip("\n"))
 
     driver.get("https://students.asu.edu/employment/search")
     driver.find_element(by=By.CSS_SELECTOR, value=".space-bot-md button").click()
@@ -329,6 +351,7 @@ username = ""
 password = ""
 asuid = ""
 
+
 def write_hidden(file_name, data):
     """
     Cross platform hidden file writer.
@@ -357,12 +380,18 @@ if __name__ == "__main__":
         password = config.get("credentials", "password")
         asuid = config.get("credentials", "asuid")
     else:
-        username = input("Enter asurite : ")
+        username = input("Enter username : ")
         password = input("Enter password : ")
         asuid = input("Enter ASU ID : ")
-        data = "[credentials]\nusername: {}\npassword: {}\nasuid: {}".format(username, password, asuid)
+        data = "[credentials]\nusername: {}\npassword: {}\nasuid: {}".format(
+            username, password, asuid
+        )
         write_hidden(join(path, "credentials.txt"), data)
-    response = requests.get("https://schadotr.pythonanywhere.com/auth?username={}&api-key={}".format(username, api_key)).json()
+    response = requests.get(
+        "https://schadotr.pythonanywhere.com/auth?username={}&api-key={}".format(
+            username, api_key
+        )
+    ).json()
     if response["isValid"] is False:
         exit()
     main()
