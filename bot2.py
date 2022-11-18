@@ -46,6 +46,7 @@ def apply_to(driver, links, retry_list):
                     (By.CLASS_NAME, "jobtitleInJobDetails")
                 )
             ).text
+            job_title = job_title.replace(r'/', " ")
             job_br_id = wait.until(
                 EC.visibility_of_all_elements_located(
                     (By.CLASS_NAME, "position3InJobDetails")
@@ -61,7 +62,7 @@ def apply_to(driver, links, retry_list):
                     join(
                         path,
                         "job_description",
-                        "{}.html".format(job_title.replace("/", " ") + "_" + job_br_id),
+                        "{}.html".format(job_title + "_" + job_br_id),
                     ),
                     "a+",
                 )
@@ -247,25 +248,28 @@ def apply_to(driver, links, retry_list):
             )
             retry_list.add(links[i])
             continue
-        logging.info(
-            "Completed application for Job ID : {}".format(
-                parse_qs(urlparse(links[i]).query)["jobid"][0]
+        try:
+            logging.info(
+                "Completed application for Job ID : {}".format(
+                    parse_qs(urlparse(links[i]).query)["jobid"][0]
+                )
             )
-        )
-        html_writer = open(
-            join(
-                path, "job_description", "{}.html".format(job_title + "_" + job_br_id)
-            ),
-            "a+",
-            encoding="utf-8",
-        )
-        html_writer.write(html_source)
-        html_writer.close()
-        with open(join(path, "applied_jobs.txt"), "a+") as file_writer:
-            parsed_url = urlparse(links[i])
-            applied_job_id = parse_qs(parsed_url.query)["jobid"][0]
-            file_writer.write(applied_job_id + "\n")
-            file_writer.close()
+            html_writer = open(
+                join(
+                    path, "job_description", "{}.html".format(job_title + "_" + job_br_id)
+                ),
+                "a+",
+                encoding="utf-8",
+            )
+            html_writer.write(html_source)
+            html_writer.close()
+            with open(join(path, "applied_jobs.txt"), "a+") as file_writer:
+                parsed_url = urlparse(links[i])
+                applied_job_id = parse_qs(parsed_url.query)["jobid"][0]
+                file_writer.write(applied_job_id + "\n")
+                file_writer.close()
+        except e:
+            continue
     return "Done"
 
 
