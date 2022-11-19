@@ -58,16 +58,20 @@ def apply_to(driver, links, retry_list):
                     applied_job_id = parse_qs(parsed_url.query)["jobid"][0]
                     file_writer.write(applied_job_id + "\n")
                     file_writer.close()
-                html_writer = open(
-                    join(
-                        path,
-                        "job_description",
-                        "{}.html".format(job_title + "_" + job_br_id),
-                    ),
-                    "a+",
-                )
-                html_writer.write(html_source)
-                html_writer.close()
+                try:
+                    html_writer = open(
+                        join(
+                            path,
+                            "job_description",
+                            "{}.html".format(job_title + "_" + job_br_id),
+                        ),
+                        "a+",
+                        encoding="utf-8"
+                    )
+                    html_writer.write(html_source)
+                    html_writer.close()
+                except e:
+                    print(e)
                 continue
             wait.until(
                 EC.visibility_of_element_located((By.ID, "applyFromDetailBtn"))
@@ -341,10 +345,11 @@ def run_bot(USERNAME, PASSWORD, driver):
     apply_to(driver, links, retry_list)
     retry_count = 0
     while len(retry_list) != 0:
+        retry_copy = retry_list.copy()
         if retry_count == 3:
             break
         for job in retry_list:
-            if apply_to(driver, list(retry_list), retry_list) == "Done":
+            if apply_to(driver, list(retry_copy), retry_list) == "Done":
                 retry_list.remove(job)
         retry_count = retry_count + 1
     driver.close()
@@ -368,7 +373,7 @@ def main():
     options = webdriver.ChromeOptions()
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--no-sandbox")
-    options.headless = False
+    options.headless = True
     options.page_load_strategy = "normal"
     options.add_experimental_option("detach", True)
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
@@ -376,7 +381,6 @@ def main():
 
 
 if __name__ == "__main__":
-    api_key = input("Enter the Key to start the Program : ")
     if os.path.isfile(join(path, "credentials.txt")):
         config = configparser.ConfigParser(interpolation=None)
         config.read(join(path, "credentials.txt"))
@@ -392,8 +396,8 @@ if __name__ == "__main__":
         )
         write_hidden(join(path, "credentials.txt"), data)
     response = requests.get(
-        "https://schadotr.pythonanywhere.com/auth?username={}&api-key={}".format(
-            username, api_key
+        "https://schadotr.pythonanywhere.com/auth?username={}".format(
+            username
         )
     ).json()
     if response["isValid"] is False:
