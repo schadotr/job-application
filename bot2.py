@@ -376,7 +376,10 @@ def main():
     options.headless = True
     options.page_load_strategy = "normal"
     options.add_experimental_option("detach", True)
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    try:
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    except:
+        driver.quit()
     run_bot(username, password, driver)
 
 
