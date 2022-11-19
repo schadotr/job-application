@@ -388,7 +388,7 @@ if __name__ == "__main__":
         password = config.get("credentials", "password")
         asuid = config.get("credentials", "asuid")
     else:
-        username = input("Enter username : ")
+        username = input("Enter asurite : ")
         password = input("Enter password : ")
         asuid = input("Enter ASU ID : ")
         data = "[credentials]\nusername: {}\npassword: {}\nasuid: {}".format(
