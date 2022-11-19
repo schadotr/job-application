@@ -46,7 +46,7 @@ def apply_to(driver, links, retry_list):
                     (By.CLASS_NAME, "jobtitleInJobDetails")
                 )
             ).text
-            job_title = job_title.replace(r'/', " ")
+            job_title = job_title.replace(r"/", " ")
             job_br_id = wait.until(
                 EC.visibility_of_all_elements_located(
                     (By.CLASS_NAME, "position3InJobDetails")
@@ -66,39 +66,55 @@ def apply_to(driver, links, retry_list):
                             "{}.html".format(job_title + "_" + job_br_id),
                         ),
                         "a+",
-                        encoding="utf-8"
+                        encoding="utf-8",
                     )
                     html_writer.write(html_source)
                     html_writer.close()
-                except e:
+                except Exception as e:
                     print(e)
                 continue
             wait.until(
                 EC.visibility_of_element_located((By.ID, "applyFromDetailBtn"))
             ).click()
-            wait.until(EC.visibility_of_element_located((By.ID, "startapply"))).click()
+            wait.until(
+                EC.visibility_of_element_located((By.ID, "startapply"))
+            ).click()
             try:
                 wait.until(
-                    EC.visibility_of_element_located((By.CLASS_NAME, "ui-checkbox"))
+                    EC.visibility_of_element_located(
+                        (By.CLASS_NAME, "ui-checkbox")
+                    )
                 ).find_element(By.CLASS_NAME, "checked")
             except Exception:
                 wait.until(
-                    EC.visibility_of_element_located((By.CLASS_NAME, "ui-checkbox"))
+                    EC.visibility_of_element_located(
+                        (By.CLASS_NAME, "ui-checkbox")
+                    )
                 ).click()
-            shownext = wait.until(EC.visibility_of_element_located((By.ID, "shownext")))
+            shownext = wait.until(
+                EC.visibility_of_element_located((By.ID, "shownext"))
+            )
             driver.execute_script("arguments[0].scrollIntoView();", shownext)
             driver.execute_script("arguments[0].click();", shownext)
             wait.until(
-                EC.visibility_of_all_elements_located((By.CLASS_NAME, "ui-radio"))
+                EC.visibility_of_all_elements_located(
+                    (By.CLASS_NAME, "ui-radio")
+                )
             )[1].find_element(by=By.TAG_NAME, value="input").click()
             wait.until(
-                EC.visibility_of_all_elements_located((By.CLASS_NAME, "ui-radio"))
+                EC.visibility_of_all_elements_located(
+                    (By.CLASS_NAME, "ui-radio")
+                )
             )[2].find_element(by=By.TAG_NAME, value="input").click()
             wait.until(
-                EC.visibility_of_all_elements_located((By.CLASS_NAME, "ui-radio"))
+                EC.visibility_of_all_elements_located(
+                    (By.CLASS_NAME, "ui-radio")
+                )
             )[4].find_element(by=By.TAG_NAME, value="input").click()
             wait.until(
-                EC.visibility_of_all_elements_located((By.CLASS_NAME, "ui-radio"))
+                EC.visibility_of_all_elements_located(
+                    (By.CLASS_NAME, "ui-radio")
+                )
             )[7].find_element(by=By.TAG_NAME, value="input").click()
             # wait.until(
             #     EC.visibility_of_element_located((By.ID, "radio-44674-No"))
@@ -111,7 +127,9 @@ def apply_to(driver, links, retry_list):
                     (By.ID, "custom_44925_1291_fname_slt_0_44925-button_text")
                 )
             ).click()
-            wait.until(EC.visibility_of_element_located((By.ID, "ui-id-5"))).click()
+            wait.until(
+                EC.visibility_of_element_located((By.ID, "ui-id-5"))
+            ).click()
             asuid_ = wait.until(
                 EC.visibility_of_element_located(
                     (By.ID, "custom_42313_1291_fname_txt_0")
@@ -134,32 +152,44 @@ def apply_to(driver, links, retry_list):
                         (By.ID, "custom_42236_1291_fname_txt_0")
                     )
                 ).send_keys(username)
-            shownext = wait.until(EC.visibility_of_element_located((By.ID, "shownext")))
+            shownext = wait.until(
+                EC.visibility_of_element_located((By.ID, "shownext"))
+            )
             driver.execute_script("arguments[0].scrollIntoView();", shownext)
             driver.execute_script("arguments[0].click();", shownext)
             wait.until(
                 EC.visibility_of_element_located((By.ID, "AddResumeLink"))
             ).click()
             wait.until(
-                EC.frame_to_be_available_and_switch_to_it((By.ID, "profileBuilder"))
+                EC.frame_to_be_available_and_switch_to_it(
+                    (By.ID, "profileBuilder")
+                )
             )
             wait.until(
                 EC.visibility_of_element_located((By.ID, "btnSelectedSavedRC"))
             ).click()
             wait.until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "FileListPadding"))
+                EC.visibility_of_element_located(
+                    (By.CLASS_NAME, "FileListPadding")
+                )
             ).find_elements(By.CLASS_NAME, "rbtButtons")[-1].click()
             wait.until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "Marginbottom20"))
+                EC.visibility_of_element_located(
+                    (By.CLASS_NAME, "Marginbottom20")
+                )
             ).find_element(By.TAG_NAME, "button").click()
             driver.switch_to.default_content()
             cover_letter_link = wait.until(
                 EC.visibility_of_element_located((By.ID, "AddCLLink"))
             )
-            driver.execute_script("arguments[0].scrollIntoView();", cover_letter_link)
+            driver.execute_script(
+                "arguments[0].scrollIntoView();", cover_letter_link
+            )
             driver.execute_script("arguments[0].click();", cover_letter_link)
             wait.until(
-                EC.frame_to_be_available_and_switch_to_it((By.ID, "profileBuilder"))
+                EC.frame_to_be_available_and_switch_to_it(
+                    (By.ID, "profileBuilder")
+                )
             )
             wait.until(
                 EC.visibility_of_element_located((By.ID, "btnSelectedSavedRC"))
@@ -168,20 +198,30 @@ def apply_to(driver, links, retry_list):
                 EC.visibility_of_element_located((By.CLASS_NAME, "ResumeList"))
             ).find_elements(By.CLASS_NAME, "rbtButtons")[-1].click()
             wait.until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "Marginbottom20"))
+                EC.visibility_of_element_located(
+                    (By.CLASS_NAME, "Marginbottom20")
+                )
             ).find_element(By.TAG_NAME, "button").click()
             driver.switch_to.default_content()
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            shownext = wait.until(EC.visibility_of_element_located((By.ID, "shownext")))
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);"
+            )
+            shownext = wait.until(
+                EC.visibility_of_element_located((By.ID, "shownext"))
+            )
             driver.execute_script("arguments[0].scrollIntoView();", shownext)
             driver.execute_script("arguments[0].click();", shownext)
             add_files_link = wait.until(
                 EC.visibility_of_element_located((By.ID, "attachmentWidget"))
             ).find_element(By.CLASS_NAME, "UnderLineLink")
-            driver.execute_script("arguments[0].scrollIntoView();", add_files_link)
+            driver.execute_script(
+                "arguments[0].scrollIntoView();", add_files_link
+            )
             driver.execute_script("arguments[0].click();", add_files_link)
             wait.until(
-                EC.frame_to_be_available_and_switch_to_it((By.ID, "profileBuilder"))
+                EC.frame_to_be_available_and_switch_to_it(
+                    (By.ID, "profileBuilder")
+                )
             )
             wait.until(
                 EC.visibility_of_element_located((By.ID, "btnSelectedSavedRC"))
@@ -198,10 +238,14 @@ def apply_to(driver, links, retry_list):
             for checkbox in total_file_uploads:
                 wait.until(EC.visibility_of(checkbox)).click()
             wait.until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "Marginbottom20"))
+                EC.visibility_of_element_located(
+                    (By.CLASS_NAME, "Marginbottom20")
+                )
             ).find_element(By.TAG_NAME, "button").click()
             driver.switch_to.default_content()
-            shownext = wait.until(EC.visibility_of_element_located((By.ID, "shownext")))
+            shownext = wait.until(
+                EC.visibility_of_element_located((By.ID, "shownext"))
+            )
             driver.execute_script("arguments[0].scrollIntoView();", shownext)
             driver.execute_script("arguments[0].click();", shownext)
             wait.until(
@@ -212,7 +256,9 @@ def apply_to(driver, links, retry_list):
                     )
                 )
             )
-            shownext = wait.until(EC.visibility_of_element_located((By.ID, "shownext")))
+            shownext = wait.until(
+                EC.visibility_of_element_located((By.ID, "shownext"))
+            )
             driver.execute_script("arguments[0].scrollIntoView();", shownext)
             driver.execute_script("arguments[0].click();", shownext)
             wait.until(
@@ -223,8 +269,12 @@ def apply_to(driver, links, retry_list):
                     )
                 )
             )
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            shownext = wait.until(EC.visibility_of_element_located((By.ID, "shownext")))
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);"
+            )
+            shownext = wait.until(
+                EC.visibility_of_element_located((By.ID, "shownext"))
+            )
             driver.execute_script("arguments[0].scrollIntoView();", shownext)
             driver.execute_script("arguments[0].click();", shownext)
             wait.until(
@@ -235,12 +285,20 @@ def apply_to(driver, links, retry_list):
                     )
                 )
             )
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            shownext = wait.until(EC.visibility_of_element_located((By.ID, "shownext")))
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);"
+            )
+            shownext = wait.until(
+                EC.visibility_of_element_located((By.ID, "shownext"))
+            )
             driver.execute_script("arguments[0].scrollIntoView();", shownext)
             driver.execute_script("arguments[0].click();", shownext)
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            save = wait.until(EC.visibility_of_element_located((By.ID, "save")))
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);"
+            )
+            save = wait.until(
+                EC.visibility_of_element_located((By.ID, "save"))
+            )
             driver.execute_script("arguments[0].scrollIntoView();", save)
             driver.execute_script("arguments[0].click();", save)
         except Exception as e:
@@ -260,7 +318,9 @@ def apply_to(driver, links, retry_list):
             )
             html_writer = open(
                 join(
-                    path, "job_description", "{}.html".format(job_title + "_" + job_br_id)
+                    path,
+                    "job_description",
+                    "{}.html".format(job_title + "_" + job_br_id),
                 ),
                 "a+",
                 encoding="utf-8",
@@ -272,7 +332,7 @@ def apply_to(driver, links, retry_list):
                 applied_job_id = parse_qs(parsed_url.query)["jobid"][0]
                 file_writer.write(applied_job_id + "\n")
                 file_writer.close()
-        except e:
+        except Exception:
             continue
     return "Done"
 
@@ -283,12 +343,18 @@ def perform_login(USERNAME, PASSWORD, driver, login_attempt):
     try:
         wait = WebDriverWait(driver, 300)
         driver.get("https://students.asu.edu/employment/search")
-        driver.find_element(by=By.CSS_SELECTOR, value=".space-bot-md button").click()
+        driver.find_element(
+            by=By.CSS_SELECTOR, value=".space-bot-md button"
+        ).click()
         driver.find_element(by=By.ID, value="username").send_keys(USERNAME)
         driver.find_element(by=By.ID, value="password").send_keys(PASSWORD)
         wait.until(EC.presence_of_element_located((By.NAME, "submit"))).click()
-        wait.until(EC.frame_to_be_available_and_switch_to_it((By.ID, "duo_iframe")))
-        wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "auth-button"))).click()
+        wait.until(
+            EC.frame_to_be_available_and_switch_to_it((By.ID, "duo_iframe"))
+        )
+        wait.until(
+            EC.element_to_be_clickable((By.CLASS_NAME, "auth-button"))
+        ).click()
         driver.switch_to.default_content()
     except Exception as e:
         perform_login(USERNAME, PASSWORD, driver, login_attempt + 1)
@@ -299,7 +365,9 @@ def perform_login(USERNAME, PASSWORD, driver, login_attempt):
 def run_job_lister(USERNAME, PASSWORD, driver):
     wait = WebDriverWait(driver, 300)
     perform_login(USERNAME, PASSWORD, driver, 0)
-    wait.until(EC.presence_of_element_located((By.ID, "responsiveCandZoneLink")))
+    wait.until(
+        EC.presence_of_element_located((By.ID, "responsiveCandZoneLink"))
+    )
 
     applied_job_ids = set()
     if os.path.exists(join(path, "applied_jobs.txt")) is False:
@@ -310,18 +378,28 @@ def run_job_lister(USERNAME, PASSWORD, driver):
             applied_job_ids.add(line.rstrip("\n"))
 
     driver.get("https://students.asu.edu/employment/search")
-    driver.find_element(by=By.CSS_SELECTOR, value=".space-bot-md button").click()
+    driver.find_element(
+        by=By.CSS_SELECTOR, value=".space-bot-md button"
+    ).click()
     wait.until(
         EC.presence_of_element_located((By.ID, "searchControls_BUTTON_2"))
     ).click()
-    wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, "ladda-spinner")))
-    wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "SaveSearchLink")))
-    totaljobs = driver.find_element(by=By.CLASS_NAME, value="sectionHeading").text[:3]
+    wait.until(
+        EC.invisibility_of_element_located((By.CLASS_NAME, "ladda-spinner"))
+    )
+    wait.until(
+        EC.visibility_of_element_located((By.CLASS_NAME, "SaveSearchLink"))
+    )
+    totaljobs = driver.find_element(
+        by=By.CLASS_NAME, value="sectionHeading"
+    ).text[:3]
     links = []
     job_ids = set()
     for i in range(int(totaljobs)):
         if (i + 1) % 50 == 0:
-            wait.until(EC.presence_of_element_located((By.ID, "showMoreJobs"))).click()
+            wait.until(
+                EC.presence_of_element_located((By.ID, "showMoreJobs"))
+            ).click()
         link = wait.until(
             EC.presence_of_element_located((By.ID, "Job_" + str(i)))
         ).get_attribute("href")
@@ -377,8 +455,10 @@ def main():
     options.page_load_strategy = "normal"
     options.add_experimental_option("detach", True)
     try:
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-    except:
+        driver = webdriver.Chrome(
+            ChromeDriverManager().install(), options=options
+        )
+    except Exception as e:
         driver.quit()
     run_bot(username, password, driver)
 
@@ -399,9 +479,7 @@ if __name__ == "__main__":
         )
         write_hidden(join(path, "credentials.txt"), data)
     response = requests.get(
-        "https://schadotr.pythonanywhere.com/auth?username={}".format(
-            username
-        )
+        "https://schadotr.pythonanywhere.com/auth?username={}".format(username)
     ).json()
     if response["isValid"] is False:
         exit()
